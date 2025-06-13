@@ -8,8 +8,10 @@ Dashboard
 │   │   │   ├── 2. Add Account
 │   │   │   ├── 3. Delete Account
 │   │   │   └── 4. Switch Account
-│   │   └── 2. Video Tools
-│   │       └── 1. Video to Frames
+│   │   ├── 2. Video Tools
+│   │   │   └── 1. Video to Frames
+│   │   └── 3. Multimodal Tools
+│   │       └── 1. Image Annotation
 │   ├── 2. Dataset Tools
 │   │   └── 1. Format Conversion
 │   │       └── 1. COCO to YOLO
@@ -19,7 +21,11 @@ Dashboard
 │       │   └── 2. Model Management
 │       └── 2. Gemini AI Tools
 │           ├── 1. Chat CLI
-│           └── 2. Auto Git Commit Message
+│           ├── 2. Auto Git Commit Message
+│           └── 3. Account Management
+│               ├── 1. Add Account
+│               ├── 3. Switch Account
+│               └── 4. Delete Account
 ├── 2. Mobile Development
 │   ├── 1. Android Tools
 │   │   ├── 1. ADB Management
@@ -64,8 +70,14 @@ Dashboard
 │   │   │   │   ├── switch_account.py
 │   │   │   │   └── upload_model
 │   │   │   │       └── upload_model.py
-│   │   │   └── video_tool
-│   │   │       └── video_to_frames.py
+│   │   │   ├── video_tool
+│   │   │   │   └── video_to_frames.py
+│   │   │   └── multimodal_tool
+│   │   │       └── image_annotator.py
+│   │   ├── ai_development
+│   │   │   └── gemini_tools
+│   │   │       ├── account_manager.py
+│   │   │       └── gemini_tools.py
 │   │   └── dataset_tools
 │   │       └── format_conversion
 │   │           └── coco_to_yolo.py

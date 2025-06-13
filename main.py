@@ -2,6 +2,7 @@ import sys
 from core.menu import Menu
 from queue import Queue
 import builtins
+from core.utils import get_tool_module, execute_tool
 
 def start():
     # Global log queue for the live log viewer everywhere
@@ -32,7 +33,13 @@ def start():
                 current_path = []
             # Handle valid menu choices
             elif menu.is_valid_choice(choice, current_menu):
-                current_path.append(choice)
+                # Check if this is a submenu or a tool
+                if isinstance(current_menu[choice], dict):
+                    current_path.append(choice)
+                else:
+                    # This is a tool, execute it
+                    new_path = current_path + [choice]
+                    execute_tool(new_path)
             else:
                 print("\nInvalid choice! Please try again.")
                 input("Press Enter to continue...")
@@ -40,6 +47,7 @@ def start():
         except Exception as e:
             print(f"\nMenu error: {e}")
             input("Press Enter to return to main menu...")
+            current_path = []
 
 if __name__ == "__main__":
     try:

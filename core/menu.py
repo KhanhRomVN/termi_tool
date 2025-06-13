@@ -29,6 +29,12 @@ class Menu:
                                 "items": {
                                     "1": "Video to Frames"
                                 }
+                            },
+                            "3": {
+                                "title": "Multimodal Tools",
+                                "items": {
+                                    "1": "Image Annotation"
+                                }
                             }
                         }
                     },
@@ -57,7 +63,15 @@ class Menu:
                                 "title": "Gemini AI Tools",
                                 "items": {
                                     "1": "Chat CLI",
-                                    "2": "Auto Git Commit Message"
+                                    "2": "Auto Git Commit Message",
+                                    "3": {
+                                        "title": "Account Management",
+                                        "items": {
+                                            "1": "Add Account",
+                                            "3": "Switch Account",
+                                            "4": "Delete Account"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -209,9 +223,30 @@ class Menu:
                 return
 
         # Print current path
-        print("+---------------------------------------------------------------------------------------------+")
-        print(f"| 📍 {' > '.join(['Main Menu'] + title_path):<59}                              |")
-        print("+---------------------------------------------------------------------------------------------+")
+        print(f"📍 {' > '.join(['Main Menu'] + title_path):<59}")
+
+        # Special handling for Gemini Account Management menu
+        if len(path) == 4 and path[0] == "1" and path[1] == "3" and path[2] == "2" and path[3] == "3":
+            try:
+                # Import account manager
+                from categorie.data_ai.ai_development.gemini_tools.account_manager import GeminiAccountManager
+                manager = GeminiAccountManager()
+                accounts = manager.list_accounts()
+                
+                if accounts:
+                    print("\n=== Registered Gemini Accounts ===")
+                    print("+-------+----------------------------------+------------------+")
+                    print("| Index |              Email               |     Status      |")
+                    print("+-------+----------------------------------+------------------+")
+                    for i, acc in enumerate(accounts, 1):
+                        status = "🟢 Current" if acc["is_current"] else "⚪ Available"
+                        email = acc["email"][:32]  # Truncate if too long
+                        print(f"|   {i:<3} | {email:<32} | {status:<14} |")
+                    print("+-------+----------------------------------+------------------+\n")
+                else:
+                    print("\n⚠️  No Gemini accounts registered yet.\n")
+            except Exception as e:
+                print(f"\n⚠️  Error loading accounts: {str(e)}\n")
 
         # Print menu items table
         print("+-------+----------------------------------+")
@@ -220,6 +255,10 @@ class Menu:
         
         # Print menu items
         for key, value in current.items():
+            # Skip List Accounts option since we're showing the list automatically
+            if len(path) == 4 and path[0] == "1" and path[1] == "3" and path[2] == "2" and path[3] == "3":
+                if key == "2":  # Skip "List Accounts" option
+                    continue
             title = value.get('title', value) if isinstance(value, dict) else value
             print(f"|   {key:<3} | {title:<32} |")
 

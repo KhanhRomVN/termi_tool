@@ -3,6 +3,7 @@ import google.generativeai as genai
 from typing import Optional, List, Tuple
 import subprocess
 from pathlib import Path
+from .account_manager import GeminiAccountManager
 
 class GeminiTools:
     def __init__(self, api_key: Optional[str] = None):
@@ -12,10 +13,17 @@ class GeminiTools:
         Args:
             api_key (str, optional): Gemini API key
         """
-        self.api_key = api_key or os.getenv("GEMINI_API_KEY")
-        if not self.api_key:
-            raise ValueError("Gemini API key is required")
-            
+        self.account_manager = GeminiAccountManager()
+        
+        # Try to get credentials from account manager if no API key provided
+        if not api_key:
+            credentials = self.account_manager.get_current_credentials()
+            if credentials:
+                self.current_email, api_key = credentials
+            else:
+                raise ValueError("No Gemini account configured. Please add an account first.")
+                
+        self.api_key = api_key
         genai.configure(api_key=self.api_key)
         self.model = genai.GenerativeModel('gemini-pro')
         self.chat = self.model.start_chat(history=[])

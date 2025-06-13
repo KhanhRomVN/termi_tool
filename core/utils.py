@@ -15,12 +15,21 @@ def get_tool_module(path: List[str]) -> Optional[str]:
     # Map of menu paths to module paths
     tool_map = {
         # Data & AI Utilities
+        "1.1.1.1": "categorie.data_ai.vision_tool.roboflow_tool.upload_model",
+        "1.1.1.2": "categorie.data_ai.vision_tool.roboflow_tool.add_account",
+        "1.1.1.3": "categorie.data_ai.vision_tool.roboflow_tool.delete_account",
+        "1.1.1.4": "categorie.data_ai.vision_tool.roboflow_tool.switch_account",
         "1.1.2.1": "categorie.data_ai.vision_tool.video_tool.video_to_frames",
+        "1.1.3.1": "categorie.data_ai.vision_tool.multimodal_tool.image_annotator",
         "1.2.1.1": "categorie.data_ai.dataset_tools.format_conversion.coco_to_yolo",
         "1.3.1.1": "categorie.data_ai.ai_development.huggingface_tools.huggingface_manager",
         "1.3.1.2": "categorie.data_ai.ai_development.huggingface_tools.huggingface_manager",
         "1.3.2.1": "categorie.data_ai.ai_development.gemini_tools.gemini_tools",
         "1.3.2.2": "categorie.data_ai.ai_development.gemini_tools.gemini_tools",
+        "1.3.2.3.1": "categorie.data_ai.ai_development.gemini_tools.account_manager",
+        "1.3.2.3.2": "categorie.data_ai.ai_development.gemini_tools.account_manager",
+        "1.3.2.3.3": "categorie.data_ai.ai_development.gemini_tools.account_manager",
+        "1.3.2.3.4": "categorie.data_ai.ai_development.gemini_tools.account_manager",
         
         # Mobile Development
         "2.1.1.1": "categorie.mobile_dev.android_tools.adb_management.adb_tools",
@@ -62,6 +71,9 @@ def execute_tool(path: List[str]) -> None:
         return
         
     try:
+        # Set menu path environment variable
+        os.environ['MENU_PATH'] = '.'.join(path)
+        
         # Import the module
         module = importlib.import_module(module_path)
         
@@ -72,6 +84,7 @@ def execute_tool(path: List[str]) -> None:
             print("\n⚠️  Tool implementation not found.")
         
         input("\nPress Enter to continue...")
+        
     except ImportError as e:
         print(f"\n❌ Error loading tool: {e}")
         input("\nPress Enter to continue...")
