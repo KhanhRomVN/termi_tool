@@ -1,0 +1,4 @@
+.venv
+.env
+log.txt
+categorie/roboflow_accounts.json

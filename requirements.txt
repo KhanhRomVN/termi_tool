@@ -1,0 +1,7 @@
+# pip install -r requirements.txt
+
+colorama>=0.4
+roboflow>=1.0.1
+readchar>=4.0.3
+ultralytics
+tqdm>=4.65.0
